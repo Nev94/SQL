@@ -1,0 +1,33 @@
+-- Create a Gaming Store Database
+
+CREATE TABLE GamingHeaven ( id INTEGER PRIMARY KEY, System TEXT, colors TEXT, online_functions TEXT, price INTEGER);
+
+INSERT INTO GamingHeaven VALUES (1,"PS5", "White","Yes",400);
+INSERT INTO Gamingheaven VALUES (2,"SWITCH", "multiple","Yes",250);
+INSERT INTO Gamingheaven VALUES (3,"Xbox one" ,"multiple","Yes",380);
+INSERT INTO Gamingheaven VALUES (4,"DS","mulitple","Yes",120);
+INSERT INTO Gamingheaven VALUES (5, "PSP","mulitple","Yes",200);
+INSERT INTO Gamingheaven VALUES (6, "SEGA", "White","No",120);
+INSERT INTO Gamingheaven VALUES (7, "Nintendo 64","multiple","No", 165);
+INSERT INTO Gamingheaven VALUES (8, "Steam Deck","Black","Yes",400);
+INSERT INTO Gamingheaven VALUES (9, "Wii U","White","Yes",170);
+INSERT INTO Gamingheaven VALUES (10, "Wii","Multiple","No",120);
+INSERT INTO Gamingheaven VALUES (11, "Super Nintendo","Grey","No",100);
+INSERT INTO Gamingheaven VALUES (12, "Xbox 360","multiple","No",70);
+INSERT INTO Gamingheaven VALUES (13, "DS Lite","mulitple","Yes",140);
+INSERT INTO Gamingheaven VALUES (14, "DS XL","multiple","Yes",175);
+INSERT INTO Gamingheaven VALUES (15, "Gameboy advance","multiple","No",65);
+
+--display the database ordered by price. 
+SELECT * FROM Gamingheaven
+ORDER BY price desc; 
+
+--what is the avg price of systems with multiple colors? 
+SELECT AVG(price),colors
+FROM Gamingheaven
+WHERE colors = "multiple"
+
+--what system comes in the color black and how much is it?
+SELECT system, colors, price
+FROM Gamingheaven
+WHERE colors LIKE "Black"
