@@ -222,7 +222,7 @@ SELECT name, MIN(population)
 FROM countries;
 
 --Which countires have a fertiltiy rate lower then 2.20 and net_migrants higher then 40000
-SELECT name, fertility_rate
+SELECT name, fertility_rate, net_migrants
 FROM countries
 WHERE fertility_rate < 2.20 AND net_migrants > 40000;
 
@@ -232,7 +232,7 @@ FROM countries
 WHERE population < 800000
 ORDER BY median_age;
 
--- What are the countries average age goup? Senior, adult, teen, or minor?
+-- What are the countries average age goup? Senior, adult, or minor?
 SELECT name,
 CASE 
 WHEN median_age > 60 THEN 'Senior'
