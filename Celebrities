@@ -1,0 +1,70 @@
+CREATE TABLE celebrities ( ID INTEGER PRIMARY KEY, name TEXT, married TEXT, kids INTEGER);
+
+INSERT INTO celebrities VALUES (1,"Denzel Washington","Yes",4);
+INSERT INTO celebrities VALUES (2,"Morgan Freeman","Yes",4);
+INSERT INTO celebrities VALUES (3,"Tom Hanks","Yes",4);
+INSERT INTO celebrities VALUES (4,"Tom Cruise","No",3);
+INSERT INTO celebrities VALUES (5,"Nicole Kidman","Yes",4);
+INSERT INTO celebrities VALUES (6,"Viola Davis","Yes",1);
+INSERT INTO celebrities VALUES (7,"Halle Bailey","No",0);
+INSERT INTO celebrities VALUES (8,"Eric Andre","No",0);
+
+CREATE TABLE BirthPlace ( ID INTEGER PRIMARY KEY, country TEXT, town TEXT, state TEXT);
+INSERT INTO BirthPlace VALUES(1,"US","Mount Vernon", "New York");
+INSERT INTO Birthplace VALUES (2,"US","Memphis", "Tennessee");
+INSERT INTO Birthplace VALUES(3,"US","Concord", "California");
+INSERT INTO Birthplace VALUES(4,"US","Syracuse","New York");
+INSERT INTO Birthplace VALUES(5,"US","Honolulu", "Hawaii");
+INSERT INTO Birthplace VALUES(6,"US","St. Matthews", "South Carolina");
+INSERT INTO Birthplace VALUES(7,"US","Atlanta", "Georgia");
+INSERT INTO Birthplace VALUES(8,"US","Boca Raton","Florida");
+
+CREATE TABLE BirthYear ( ID INTEGER PRIMARY KEY, month TEXT, day numeric,Year numeric);
+INSERT INTO BirthYear VALUES(1,"December",28, 1954);
+INSERT INTO BirthYear VALUES(2,"June",1,1933);
+INSERT INTO BirthYear VALUES(3,"July",9,1956);
+INSERT INTO BirthYear VALUES(4,"July",3,1962);
+INSERT INTO BirthYear VALUES(5,"June",20,1967);
+INSERT INTO BirthYear VALUES(6,"August",11,1965);
+INSERT INTO BirthYear VALUES(7,"March",27, 2000);
+INSERT INTO BirthYear VALUES(8,"April",4,1983);
+
+
+
+
+/*Which Celeb comes from the state of NY?*/
+
+SELECT c.name, bp.state, by.year
+FROM celebrities AS c
+JOIN BirthPlace AS bp ON c.ID = bp.ID
+JOIN BirthYear AS by ON c.ID = by.ID
+WHERE bp.state = "New York";
+
+/*Which Celeb was born after 1950?*/
+
+SELECT celebrities.name, BirthYear.year
+FROM celebrities
+JOIN BirthYear ON celebrities.ID = BirthYear.ID
+WHERE Year > 1950;
+
+/*Is there any celebs with first names ending with om?*/
+
+SELECT name
+FROM celebrities
+WHERE name LIKE "%om%";
+
+/*Which Celebs has more then 2 kids and was born before 1950?*/
+
+SELECT name, kids, year
+FROM celebrities
+JOIN BirthYear ON celebrities.ID = BirthYear.ID
+WHERE kids > 2
+AND year < 1950;
+
+/*How Many kids are represented for each state?*/
+
+SELECT BirthPlace.state, SUM(celebrities.kids) AS total_kids
+FROM BirthPlace
+JOIN celebrities ON BirthPlace.ID = celebrities.ID
+GROUP BY BirthPlace.state
+ORDER BY total_kids DESC;
