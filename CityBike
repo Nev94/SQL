@@ -1,0 +1,38 @@
+With this project i'm practicing utilizing a CTE to help define my query and exploring window functions
+
+
+CREATE TABLE BIT_DB.CityBikeLanes (
+id integer primary key,
+year_installed year not null,
+year_updated year not null,
+street varchar not null,
+width_feet integer not null,
+safetyrating integer not null,
+protected varchar not null);
+
+
+
+#1.list of all the bike lanes that have an average safety rating of 4.0 or higher, and create a label that says "Safe Lane".
+
+WITH safety_average_CTE AS (
+SELECT street, AVG(safetyrating) AS rating
+FROM CityBikeLanes
+GROUP BY street)
+
+SELECT street,rating, 'safe lane' AS 'label'
+FROM safety_average_CTE
+WHERE rating >=4
+
+#2. Using a windows function to find the average safety rating for each indidvual street.
+SELECT street, safetyrating,
+AVG(safetyrating) OVER (PARTITION BY street) as "Average_safety_rating"
+FROM CityBikeLanes
+
+#3.list of all the bike lanes, both safety ratings for each lane, the average safety rating for each lane, and a label with the recommendation as "Remove", "Leave As-Is", or "Improvements Needed".
+SELECT street, safetyrating,
+AVG(safetyrating) OVER (PARTITION BY street) as "Average_safety_rating",
+CASE WHEN AVG(safetyrating) OVER (PARTITION BY street) >=4 THEN "Leave As-Is"
+    WHEN AVG(safetyrating) OVER (PARTITION BY street) <2.5 THEN "Remove"
+    ELSE "Improvements Needed"
+    END AS "Recommendation"
+FROM CityBikeLanes
